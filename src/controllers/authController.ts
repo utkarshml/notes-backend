@@ -125,7 +125,7 @@ export class AuthController {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
       });
 
       res.status(201).json({
@@ -231,7 +231,7 @@ export class AuthController {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
       });
       res.status(200).json({
         success: true,
@@ -369,7 +369,12 @@ export class AuthController {
   async logout(req: Request, res: Response<ApiResponse>): Promise<void> {
     try {
       // If using HTTP-only cookies, clear the cookie
-      res.clearCookie('token');
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
+      path: "/"
+    });
       
       res.status(200).json({
         success: true,
@@ -452,7 +457,7 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
       });
       res.redirect(process.env.FRONTEND_URL +  "/dashboard");
       return;
@@ -474,7 +479,7 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
       });
 
     // Redirect to React app
