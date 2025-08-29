@@ -125,7 +125,7 @@ export class AuthController {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "lax",
+        sameSite: "none",
       });
 
       res.status(201).json({
@@ -231,7 +231,7 @@ export class AuthController {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "lax",
+        sameSite: "none",
       });
       res.status(200).json({
         success: true,
@@ -452,7 +452,7 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "lax",
+        sameSite: "none",
       });
       res.redirect(process.env.FRONTEND_URL +  "/dashboard");
       return;
@@ -474,7 +474,7 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // change to true in production with https
-        sameSite: "lax",
+        sameSite: "none",
       });
 
     // Redirect to React app
