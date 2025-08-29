@@ -29,6 +29,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "vercel.json"],
   "exclude": ["node_modules", "dist"]
 }
