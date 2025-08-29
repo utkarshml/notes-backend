@@ -121,13 +121,12 @@ export class AuthController {
         userId: (user?.id as string).toString(),
         email: user?.email as string
       });
-      res.cookie('token', token, {
+        res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        secure : false,
-        sameSite : 'none',
-        path : '/'
-      })
+        secure: process.env.NODE_ENV === 'production', // change to true in production with https
+        sameSite: "lax",
+      });
 
       res.status(201).json({
         success: true,
@@ -228,13 +227,12 @@ export class AuthController {
         userId: (user._id as string).toString(),
         email: user.email
       });
-      res.cookie('token', token, {
+        res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        secure : false,
-        sameSite : "lax",
-      })
-
+        secure: process.env.NODE_ENV === 'production', // change to true in production with https
+        sameSite: "lax",
+      });
       res.status(200).json({
         success: true,
         message: 'Login successful',
@@ -453,7 +451,7 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
       res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        secure: false, // change to true in production with https
+        secure: process.env.NODE_ENV === 'production', // change to true in production with https
         sameSite: "lax",
       });
       res.redirect(process.env.FRONTEND_URL +  "/dashboard");
@@ -472,11 +470,12 @@ export const googleCallback = async (req: Request, res: Response<ApiResponse>) =
     );
 
     // Set cookie
-    res.cookie("token", myToken, {
-      httpOnly: true,
-      secure: false, // change to true in production with https
-      sameSite: "lax",
-    });
+      res.cookie('token', myToken, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // change to true in production with https
+        sameSite: "lax",
+      });
 
     // Redirect to React app
     res.redirect(process.env.FRONTEND_URL +  "/dashboard");
